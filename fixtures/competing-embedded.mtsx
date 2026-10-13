@@ -1,0 +1,10 @@
+{
+    name: ["CompetingFixture"]
+    contains: [{
+        start: {match: /</, 0: "meta"}
+        end: {match: />/, 0: "meta"}
+        childrenSyntax: ".competing-child"
+        matchEndFirst: false
+        mustMatchEnd: true
+    }]
+}

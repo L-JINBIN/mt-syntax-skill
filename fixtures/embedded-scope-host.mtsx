@@ -1,0 +1,34 @@
+// childrenSyntax bundle 与 start/end 作用域变量的标准回归样例。
+// require MT >= 2.26.9
+{
+    name: ["EmbeddedScopeFixture", ".embedded-scope-fixture"]
+    styles: ["lang" > "type"]
+    defines: [
+        "fixtureLanguages": {
+            "fixture" => ".fixture-child"
+            "missing" => ".fixture-missing"
+        }
+    ]
+    contains: [
+        {
+            start: {
+                match: /(?m)^(`{3,}+)([A-Za-z-]*)[ \t]*+(?:\r\n|[\r\n]|\z)/
+                export: 1 => "fence"
+                1: "operator"
+                2: "lang"
+            }
+            end: {
+                match: /(?m)^/ + var("fence") + /`*+[ \t]*+(?=\r\n|[\r\n]|\z)/
+                0: "operator"
+            }
+            childrenSyntax: {
+                capture: 2
+                ignoreCase: true
+                include: "fixtureLanguages"
+                "json" => ".json"
+                default => ".json"
+            }
+            missingStyle: "comment"
+        }
+    ]
+}

@@ -1,0 +1,16 @@
+````Fixture
+alpha 42
+``
+````
+
+```json
+{"alpha": 7}
+```
+
+```missing
+alpha 9
+```
+
+```unknown
+{"beta": 11}
+```

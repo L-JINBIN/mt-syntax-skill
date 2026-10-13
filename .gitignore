@@ -1,0 +1,25 @@
+# 本机和运行产物
+.DS_Store
+Thumbs.db
+__pycache__/
+*.py[cod]
+out/
+*.log
+*.zip
+.idea/
+.vscode/
+
+# 分发仓库不收录 Java 工程及混淆映射
+src/
+build/
+.gradle/
+gradle/
+gradlew*
+*.gradle
+*.gradle.kts
+*.java
+*.class
+*.g4
+*.map
+*.jar
+!lib/mt-syntax.jar

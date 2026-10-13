@@ -1,0 +1,16 @@
+{
+  "name": "mt-syntax",
+  "owner": {
+    "name": "L-JINBIN"
+  },
+  "metadata": {
+    "description": "MT Syntax Skill 的 Claude Code 插件安装源。"
+  },
+  "plugins": [
+    {
+      "name": "mt-syntax",
+      "source": "./",
+      "description": "MT Syntax Skill：编写、修复和验证 MT .mtsx 语法文件。"
+    }
+  ]
+}

@@ -1,0 +1,38 @@
+// HTML 分流至 JavaScript、CSS 与 JSON 的标准回归样例。
+// require MT >= 2.26.9
+{
+    name: ["HtmlEmbeddedFixture", ".html-embedded-fixture"]
+    ignoreCase: true
+    defines: [
+        "attributeBeforeType": /(?:(?:"[^"]*+"|'[^']*+'|(?!(?:[ \t\r\n]+type[ \t\r\n]*=))[^"'<>]))*+/
+        "attributeText": /(?:"[^"]*+"|'[^']*+'|[^"'<>]++)*+/
+    ]
+    contains: [
+        {
+            start: {
+                match: /<\s*(script)(?=[\s\/>])(/ + include("attributeBeforeType") + /[ \t\r\n]+type[ \t\r\n]*=[ \t\r\n]*(["']?)([^"'<>]*?)\3(?=[ \t\r\n>]|\/>)/ + include("attributeText") + /)(?<!\/)>/
+                1: "tagName"
+                2: "string"
+            }
+            end: {match: /<\/\s*(script)\s*>/, 1: "tagName"}
+            childrenSyntax: {
+                capture: 4
+                "" => ".js"
+                "text/javascript" => ".js"
+                "application/javascript" => ".js"
+                "module" => ".js"
+                "application/json" => ".json"
+            }
+        }
+        {
+            start: {match: /<\s*(script)(?=[\s\/>])(/ + include("attributeText") + /)(?<!\/)>/, 1: "tagName"}
+            end: {match: /<\/\s*(script)\s*>/, 1: "tagName"}
+            childrenSyntax: ".js"
+        }
+        {
+            start: {match: /<\s*(style)(?=[\s\/>])(/ + include("attributeText") + /)(?<!\/)>/, 1: "tagName"}
+            end: {match: /<\/\s*(style)\s*>/, 1: "tagName"}
+            childrenSyntax: ".css"
+        }
+    ]
+}

@@ -1,0 +1,9 @@
+{
+  "name": "mt-syntax",
+  "version": "1.0.0",
+  "description": "MT Syntax Skill：编写、修复和验证 MT .mtsx 语法文件，生成高亮预览并检查样例。",
+  "author": {
+    "name": "L-JINBIN"
+  },
+  "skills": ["./"]
+}

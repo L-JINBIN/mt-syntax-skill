@@ -1,0 +1,10 @@
+{
+    name: ["FixtureChild", ".fixture-child"]
+    styles: [
+        "fixtureWord", #0055AA, #80C8FF, @B
+    ]
+    contains: [
+        {number: "10", style: "number"}
+        {match: keywordsToRegex("alpha beta"), 0: "fixtureWord"}
+    ]
+}

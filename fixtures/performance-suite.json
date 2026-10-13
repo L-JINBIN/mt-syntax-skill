@@ -1,0 +1,18 @@
+{
+  "schemaVersion": 1,
+  "warmup": 1,
+  "iterations": 2,
+  "cases": [
+    {
+      "id": "embedded-scope",
+      "syntaxFile": "embedded-scope-host.mtsx",
+      "syntaxDependencies": ["embedded-child.mtsx"],
+      "sampleFile": "embedded-scope-sample.txt"
+    },
+    {
+      "id": "plain-text",
+      "syntax": "Text",
+      "code": "Small plain text sample\n"
+    }
+  ]
+}

@@ -1,0 +1,4 @@
+{
+    name: ["CompetingChild", ".competing-child"]
+    contains: [{match: /"[^"]*"/, 0: "string"}]
+}

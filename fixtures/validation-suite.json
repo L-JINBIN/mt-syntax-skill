@@ -1,0 +1,121 @@
+{
+  "schemaVersion": 1,
+  "cases": [
+    {
+      "id": "embedded-boundaries",
+      "syntaxFile": "embedded-scope-host.mtsx",
+      "sampleFile": "embedded-scope-sample.txt",
+      "syntaxDependencies": [
+        "embedded-child.mtsx"
+      ],
+      "assertions": [
+        {
+          "range": [
+            12,
+            17
+          ],
+          "text": "alpha",
+          "expect": {
+            "language": "FixtureChild",
+            "style.name": "fixtureWord",
+            "style.bold": true,
+            "style.dayForeground": "#FF0055AA"
+          }
+        },
+        {
+          "at": 38,
+          "expect": {
+            "language": "JSON"
+          }
+        },
+        {
+          "range": [
+            67,
+            72
+          ],
+          "text": "alpha",
+          "expect": {
+            "language": null,
+            "style.name": "comment"
+          }
+        },
+        {
+          "at": 91,
+          "expect": {
+            "language": "JSON"
+          }
+        }
+      ]
+    },
+    {
+      "id": "no-dependency-leak",
+      "syntaxFile": "embedded-scope-host.mtsx",
+      "sampleFile": "embedded-scope-sample.txt",
+      "assertions": [
+        {
+          "range": [
+            12,
+            17
+          ],
+          "text": "alpha",
+          "expect": {
+            "language": null,
+            "style.name": "comment"
+          }
+        }
+      ]
+    },
+    {
+      "id": "unicode-and-empty-line",
+      "syntax": "Text",
+      "code": "中😀\r\nx\n",
+      "assertions": [
+        {
+          "range": [
+            1,
+            3
+          ],
+          "text": "😀",
+          "expect": {
+            "language": "Text"
+          },
+          "notExpect": {
+            "style.name": "urlU"
+          }
+        },
+        {
+          "position": [
+            2,
+            1
+          ],
+          "text": "x",
+          "expect": {
+            "language": "Text"
+          }
+        },
+        {
+          "line": 3,
+          "text": "",
+          "expect": {
+            "background.present": false,
+            "background.day": null
+          }
+        }
+      ]
+    },
+    {
+      "id": "smali-line-background",
+      "syntax": "Smali",
+      "code": ".method public x()V\n.end method",
+      "assertions": [
+        {
+          "line": 1,
+          "expect": {
+            "background.present": true,
+            "background.name": "methodStart"
+          }
+        }
+      ]
+    }
+  ]
+}

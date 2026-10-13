@@ -1,0 +1,4 @@
+interface:
+  display_name: "MT Syntax Skill"
+  short_description: "Generate, edit, repair, and validate MT syntax files and bundles"
+  default_prompt: "Use $mt-syntax to generate or edit an MT .mtsx syntax or embedded-language bundle, then validate and review the result."
