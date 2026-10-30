@@ -36,6 +36,9 @@ are `style`, `childrenStyle`, `mustMatchEnd`, `matchEndFirst`, `endPriority`,
 Rules:
 
 - `childrenSyntax` and `contains` are mutually exclusive.
+- `childrenSyntax` requires MT 2.26.9. Combining it with explicit
+  `matchEndFirst: false` requires MT 2.26.10; distributed files using this
+  competing mode should declare `// require MT >= 2.26.10`.
 - With `childrenSyntax`, omitted `matchEndFirst` means `true`: the host finds
   a hard end boundary before running the child. Explicit `false` makes the host
   end and the entire child root compete at each token boundary. Child strings

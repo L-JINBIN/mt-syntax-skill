@@ -128,14 +128,14 @@ background colors.
 
 ## Style Flags
 
-Flags use `@` plus one or more letters:
+Flags use `@` plus one or more of `B`, `I`, `U`, `S`, or `_` alone:
 
 - `@B`: bold
 - `@I`: italic
 - `@U`: underline
 - `@S`: strikethrough
 - `@BI`, `@BU`, etc.: combine flags
-- `@_`: explicit no-style flag token
+- `@_`: no text flags; cannot be combined with letters (for example, `@B_` is invalid)
 
 Use flags sparingly. They are most useful for comments, deprecations, headings,
 or error-like markers.
@@ -149,6 +149,15 @@ styles: [
     "macroKeyword", > "keyword", @B
 ]
 ```
+
+When copying with `>`, omitted flags preserve the copied flags. Explicit flags
+replace them: `@B` keeps only bold, and `@_` clears the copied text flags.
+The copied colors remain unchanged.
+
+This declaration-time copy differs from parent/child style merging during
+highlighting: child colors override supplied fields, while text flags combine
+with the parent's flags. `@_` does not block parent-style inheritance, so a child
+can still inherit bold or italic from its parent.
 
 Matcher style references may start with `!!`:
 
@@ -263,6 +272,10 @@ Formatter names accepted by the bundled validator:
 - `#BUILT_IN_JAVA_FORMATTER#`
 - `#BUILT_IN_JS_FORMATTER#`
 - `#BUILT_IN_JSON_FORMATTER#`
+- `#BUILT_IN_LUA_FORMATTER#`
+- `#BUILT_IN_PYTHON_FORMATTER#`
+- `#BUILT_IN_TS_FORMATTER#`
+- `#BUILT_IN_MTSX_FORMATTER#`
 - `#BUILT_IN_XML_FORMATTER#`
 - `#BUILT_IN_SMALI_FORMATTER#`
 
@@ -270,7 +283,12 @@ Shrinker names accepted by the bundled validator:
 
 - `#BUILT_IN_CSS_SHRINKER#`
 - `#BUILT_IN_HTML_SHRINKER#`
+- `#BUILT_IN_JS_SHRINKER#`
 - `#BUILT_IN_JSON_SHRINKER#`
+
+The standalone validator recognizes these metadata names but does not execute
+formatting or shrinking. Successful validation does not verify formatter or
+shrinker output in MT.
 
 Only add these when the language truly matches the formatter or shrinker.
 Generated syntaxes usually do not need either field.

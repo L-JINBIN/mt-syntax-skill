@@ -47,8 +47,9 @@ Some matcher families accept an optional matcher display name:
 ```
 
 The optional matcher name is parsed as `name: "..."` before the matcher keyword
-for `match`, `start/end`, `number`, and `group`. It is useful in diagnostics,
-but not required for highlighting.
+for `match`, `start/end`, `number`, and `group`. It can label a rule in the syntax
+source but is not required for highlighting. Current fresh execution and
+`--explain` identify rules by rule ID and source location, not this name.
 
 Do not mix matcher families in one object. These are different matchers:
 
@@ -128,9 +129,13 @@ Capture group entries accept either a style string or a nested matcher:
 }
 ```
 
-Nested matchers are run only inside the captured group range. They are useful
-when a group may contain smaller pieces that need separate styling. Keep them
-small; a top-level matcher is usually easier to reason about.
+Nested matchers receive the captured group range as an independent input.
+`^` and `$` use that input's boundaries (and its internal line boundaries when
+multiline mode applies); lookahead and lookbehind cannot read outside the group.
+Absent or empty captures do not run the nested scan.
+
+These matchers are useful when a group contains smaller pieces that need separate
+styling. Keep them small; a top-level matcher is usually easier to reason about.
 
 The same capture group may have multiple nested matchers. A capture group may
 also have both a style entry and nested matcher entries; the style is the
@@ -177,15 +182,19 @@ parseColor(foregroundGroup,backgroundGroup,FORMAT,baseStyle)
 
 - `foregroundGroup` and `backgroundGroup` are capture group numbers, `_`, or
   `AUTO`.
-- `_` keeps the value from the base style.
+- `_` keeps the value from the base style, or leaves the existing value unchanged
+  when no base style is supplied.
 - `AUTO` computes an inverted or readable value from the other color.
 - At least one of foreground or background must be a capture group number;
   `parseColor(_,AUTO,...)` and similar forms do not carry useful input.
 - `FORMAT` may be `HEX`, `HEXA`, `RGB`, `HSL`, `HSV`, `RGBA`, `HSLA`, `HSVA`,
   `XRGB`, `RGBX`, `ARGB`, `RGBf`, `ARGBf`, or `RGBAf`. Format names are
   case-insensitive; use the lowercase `f` spelling in generated files.
-- `baseStyle` is optional in the parser pattern, but generated files should pass
-  an explicit fallback style such as `constant`.
+- `baseStyle` is optional. Omit it to preserve existing styling in fields where
+  no color is produced; if color parsing fails entirely, no new style is applied.
+  Supply a style such as `constant` when that explicit fallback is intended.
+  Adding a base style can change the appearance of invalid color text, so choose
+  it according to the desired behavior rather than always filling it in.
 
 RGB-family formats use these component rules:
 
@@ -366,13 +375,16 @@ Shape:
 {number: "2|10|16|F|E|P|_", iSuffixes: "L", fSuffixes: "F|D", style: "number"}
 ```
 
-Field order:
+Recommended field order:
 
 1. optional matcher `name`
 2. `number`
 3. optional `iSuffixes`
 4. optional `fSuffixes`
 5. optional `style`
+
+Only optional `name` followed by `number` has a fixed position. After `number`,
+`iSuffixes`, `fSuffixes`, and `style` may appear in any order.
 
 The `number` format string is a `|`-separated set of flags:
 

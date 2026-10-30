@@ -67,8 +67,8 @@ The lexer is strict. These rules come from `SyntaxLexer.g4`:
 - `STYLE_LITERAL`: `#` plus a color value, optionally followed by token
   background with `#` or line background with `$`, for example `#0033B3`,
   `#0033B3#EEEEFF`, or `#0033B3$FFF5D0`.
-- `STYLE_FLAGS`: `@` followed by one or more of `B`, `I`, `U`, `S`, or `_`.
-  Use `@B`, `@I`, `@BI`, or `@_`.
+- `STYLE_FLAGS`: `@` followed by one or more of `B`, `I`, `U`, `S`, or by
+  `_` alone. Use `@B`, `@I`, `@BI`, or `@_`; combinations such as `@B_` are invalid.
 - `BUILT_IN_LITERAL`: `#` plus uppercase letters, digits, or underscores, then
   `#`, for example `#JAVA_QUOTED_STRING#`.
 - `BOOL_LITERAL`: exactly `true` or `false`.
@@ -343,8 +343,10 @@ syntax uses them, either add an explicit `// require MT >= 2.19.4` directive or
 accept that older MT versions may fail before preprocessing.
 
 `childrenSyntax`, reusable selector mappings, and start/end scope variables are
-available in the current 2.26.9 syntax model. Add
-`// require MT >= 2.26.9` when distributing a file that uses them.
+available from MT 2.26.9. Add `// require MT >= 2.26.9` when distributing a file
+that uses them. The combination of `childrenSyntax` and explicit
+`matchEndFirst: false` requires MT 2.26.10; use `// require MT >= 2.26.10`
+for files using this competing mode.
 
 ## Generation Checklist
 
